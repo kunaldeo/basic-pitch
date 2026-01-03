@@ -18,6 +18,7 @@
 import argparse
 import os
 import pathlib
+import sys
 import traceback
 
 from basic_pitch import (
@@ -33,6 +34,10 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 def main() -> None:
     """Handle command line arguments. Entrypoint for this script."""
+    # Ensure UTF-8 encoding for stdout on Windows to handle emoji characters
+    if sys.platform == "win32":
+        sys.stdout.reconfigure(encoding="utf-8")
+
     parser = argparse.ArgumentParser(description="Predict midi from audio.")
     parser.add_argument("output_dir", type=str, help="directory to save outputs")
     parser.add_argument(
